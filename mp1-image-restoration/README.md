@@ -14,7 +14,7 @@ Pipeline restorasi ini diimplementasikan sepenuhnya menggunakan manipulasi *arra
 ## Perbandingan Visual
 | Citra Input (Noisy) | Citra Hasil Restorasi (Progress Saat Ini) |
 | :---: | :---: |
-| ![Noisy](input/test_image_lena_noisy.png) | ![Progress](path/ke/gambar/hasil/progress.png) |
+| ![Noisy](input/test_image_lena_noisy.png) | ![Progress](output/lena_restored.png) |
 
 ## Analisis Singkat
 - **Apa yang berhasil:** *Salt-and-pepper noise* berhasil dibersihkan dengan sangat memuaskan oleh Median Filter. Tingkat kecerahan dan kontras yang tadinya pudar juga sudah berhasil diperbaiki sepenuhnya melalui proses pemerataan histogram.

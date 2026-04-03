@@ -81,6 +81,36 @@ def apply_histogram_eq(image, hist):
 
     return result, hist_temp
 
+def sharpening(image):
+    print('loading sharpening...')
+    tinggi, lebar = image.shape
+    result = np.zeros((tinggi, lebar), dtype=np.uint8)
+
+    # Kernal laplacian untuk sharpen
+    kernel = np.array([
+        [0, -1, 0],
+        [-1, 5, -1],
+        [0, -1, 0]
+    ])
+
+    offset = kernel.shape[0] // 2
+    padded_image = np.pad(image, offset, mode='constant', constant_values=0)
+
+    for i in range(tinggi):
+        for j in range(lebar):
+            window = padded_image[i : i + kernel.shape[0], j : j + kernel.shape[1]]
+
+            value = np.sum(window * kernel)
+            
+            if value > 255:
+                value = 255
+            elif value < 0:
+                value = 0
+
+            result[i, j] = value
+
+    return result
+
 
 
 if __name__ == '__main__':
@@ -91,46 +121,57 @@ if __name__ == '__main__':
 
     img_equalized, hist_equalized = apply_histogram_eq(img_denoised, hist_denoised)
 
-    plt.figure(figsize=(12, 7))
+    img_sharpened = sharpening(img_equalized)
+
+    plt.figure(figsize=(12, 8))
 
     # gambar noisy
-    plt.subplot(3, 2, 1)
+    plt.subplot(4, 2, 1)
     plt.imshow(img_noisy, cmap='gray', vmin=0, vmax=255)
     plt.title('Image noisy')
     plt.axis('off')
 
     # histogram noisy
-    plt.subplot(3, 2, 2)
+    plt.subplot(4, 2, 2)
     plt.bar(range(256), hist_noisy, color='black', width=1)
     plt.title('Histogram noisy')
     plt.xlabel('Intensitas pixel (0-255)')
     plt.ylabel('Frekuensi')
 
     # gambar denoise
-    plt.subplot(3, 2, 3)
+    plt.subplot(4, 2, 3)
     plt.imshow(img_denoised, cmap='gray', vmin=0, vmax=255)
     plt.title("Median Filter (denoised)")
     plt.axis('off')
 
     # histogram denoise
-    plt.subplot(3, 2, 4)
+    plt.subplot(4, 2, 4)
     plt.bar(range(256), hist_denoised, color='black', width=1)
     plt.title('Histogram denoised (Median Filter)')
     plt.xlabel('Intensitas pixel (0-255)')
     plt.ylabel('Frekuensi')
 
     # gambar equalized
-    plt.subplot(3, 2, 5)
+    plt.subplot(4, 2, 5)
     plt.imshow(img_equalized, cmap='gray', vmin=0, vmax=255)
     plt.title("Image Equalized")
     plt.axis('off')
 
     # histogram equalize
-    plt.subplot(3, 2, 6)
+    plt.subplot(4, 2, 6)
     plt.bar(range(256), hist_equalized, color='black', width=1)
     plt.title('Histogram Equalized')
     plt.xlabel('Intensitas pixel (0-255)')
     plt.ylabel('Frekuensi')
 
+    # gambar sharpened
+    plt.subplot(4, 2, 7)
+    plt.imshow(img_sharpened, cmap='gray', vmin=0, vmax=255)
+    plt.title('Sharpened (Final Result)')
+    plt.axis('off')
+
     plt.tight_layout()
     plt.show()
+
+    cv2.imwrite('output/lena_restored.png', img_sharpened)
+    print('Restored image saved in output/')

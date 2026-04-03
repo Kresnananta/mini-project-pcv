@@ -21,9 +21,10 @@ Pipeline restorasi ini diimplementasikan sepenuhnya menggunakan manipulasi *arra
 - **Apa yang bisa ditingkatkan:** Karena pemrosesan piksel dilakukan dengan perulangan (*nested loop*) manual, waktu eksekusi program (komputasi) berjalan lebih lambat dibandingkan jika menggunakan library C++ bawaan OpenCV. Secara visual, citra saat ini masih terlihat sedikit *blur* dan masih menyisakan sedikit *Gaussian noise*, yang akan diperbaiki di tahapan selanjutnya.
 
 ## Cara Menjalankan Program
-1. Clone repository ini
+1. Clone repository ini dan Masuk ke folder `mp1-image-restoration`:
     ```bash
     git clone https://github.com/Kresnananta/mini-project-pcv.git
+    cd mp1-image-restoration
     ```
 2. Pastikan Anda telah menginstal *library* prasyarat:
    ```bash
@@ -31,8 +32,7 @@ Pipeline restorasi ini diimplementasikan sepenuhnya menggunakan manipulasi *arra
    ```
 3. Pastikan file citra input `test_image_lena_noisy.png` berada pada direktori yang tepat (misalnya di folder `input/`).
 
-4. Masuk ke folder `mp1-image-restoration` dan jalankan:
+4. Jalankan program:
     ```bash
-    cd mp1-image-restoration
     python mp1.py
     ```

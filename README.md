@@ -4,7 +4,7 @@ Selamat datang di repository Mini Project PCV (Photo Computer Vision). Repositor
 
 ---
 
-## 📚 Daftar Project
+## Daftar Project
 
 | Project | Deskripsi |
 |---------|-----------|
@@ -13,7 +13,7 @@ Selamat datang di repository Mini Project PCV (Photo Computer Vision). Repositor
 
 ---
 
-## 🚀 Navigasi Cepat
+## Navigasi Cepat
 
 ### [→ MP1: Image Restoration](https://github.com/Kresnananta/mini-project-pcv/tree/main/mp1-image-restoration)
 Perbaikan dan restorasi kualitas gambar menggunakan teknik Computer Vision.
@@ -23,7 +23,7 @@ Penghitungan otomatis jumlah objek dalam sebuah gambar.
 
 ---
 
-## 📖 Struktur Folder
+## Struktur Folder
 
 ```
 mini-project/
@@ -41,7 +41,7 @@ mini-project/
 
 ---
 
-## 📝 Petunjuk Penggunaan
+## Petunjuk Penggunaan
 
 1. Pilih project yang ingin Anda lihat
 2. Masuk ke folder project tersebut
@@ -50,7 +50,7 @@ mini-project/
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 Mini Project PCV - Semester 4
 

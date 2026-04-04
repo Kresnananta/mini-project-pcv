@@ -5,8 +5,8 @@
 ## Struktur Project
 ```text
 mp1-image-restoration/
-├── mp1.py            # Script Python utama (Final)
-├── mp1.ipynb    # Notebook untuk eksperimen & analisis per tahap
+├── mp1.py                    # Script Python utama (Final)
+├── mp1.ipynb                 # Notebook untuk eksperimen & analisis per tahap
 ├── README.md                 # Dokumentasi proyek
 ├── input/
 │   └── lena_noisy.png        # Citra rusak (Input)
@@ -29,7 +29,7 @@ Pipeline restorasi ini diimplementasikan sepenuhnya menggunakan manipulasi *arra
 ## Perbandingan Visual
 | Citra Input (Noisy) | Citra Hasil Restorasi (Progress Saat Ini) |
 | :---: | :---: |
-| ![Noisy](input/test_image_lena_noisy.png) | ![Progress](output/lena_restored.png) |
+| ![Noisy](input/lena_noisy.png) | ![Progress](output/lena_restored.png) |
 
 ## Analisis Singkat
 - **Apa yang berhasil:** Penggabungan Median Filter (3x3) dan Mean Filter (5x5) secara efektif berhasil membersihkan *noise* ekstrem (Salt & Pepper) serta menghaluskan *Gaussian noise*. Selain itu, algoritma *Histogram Equalization* manual bekerja sempurna dalam merentangkan kontras sehingga citra yang awalnya pudar menjadi cerah dan jelas.

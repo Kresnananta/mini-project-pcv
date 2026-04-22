@@ -17,6 +17,20 @@ dilated =cv2.dilate(edges, kernel, iterations=2)
 # menutup lubang di dalam objek
 closed = cv2.morphologyEx(dilated, cv2.MORPH_CLOSE, kernel)
 
+contours, hierarchy = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+result_img = img_rgb.copy()
+car_count = 0
+
+for cnt in contours:
+    area =cv2.contourArea(cnt)
+    if 800 < area < 5000:
+        x, y, w, h = cv2.boundingRect(cnt)
+        aspect_ratio = float(w) / h
+        if 0.5 < aspect_ratio < 2.5:
+            cv2.rectangle(result_img, (x, y), (x+w, y+h), (0, 255, 0), 3)
+            car_count += 1
+
 plt.figure(figsize=(12, 8))
 plt.subplot(2, 3, 1)
 plt.imshow(img_rgb)
@@ -44,5 +58,10 @@ plt.imshow(closed, cmap='gray')
 plt.title('Closed Image')
 plt.axis('off')
 
+plt.subplot(2, 3, 6)
+plt.imshow(result_img)
+plt.title(f'Counted Cars: {car_count}')
+plt.axis('off')
+cv2.imwrite('output/parking_counted.jpg', cv2.cvtColor(result_img, cv2.COLOR_RGB2BGR))
 
 plt.show()

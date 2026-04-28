@@ -7,7 +7,7 @@ PLT_ROW = 5
 PLT_WIDTH = 12
 PLT_HEIGHT = 12
 
-img_noisy = cv2.imread('input/test_image_lena_noisy.png', cv2.IMREAD_GRAYSCALE)
+img_noisy = cv2.imread('input/lena_noisy.png', cv2.IMREAD_GRAYSCALE)
 
 if img_noisy is None:
     print('Image not found! please check your file')
@@ -147,26 +147,45 @@ def sharpening(image, hist):
 
 
 if __name__ == '__main__':
+    img_noisy_color = cv2.imread('input/lena_noisy.png')
+
+    if img_noisy_color is None:
+        print('Image not found! please check your file')
+        exit()
+    
+    img_noisy_rgb = cv2.cvtColor(img_noisy_color, cv2.COLOR_BGR2RGB)
+
+    # Transformasi ke YCrCb
+    img_ycrcb = cv2.cvtColor(img_noisy_color, cv2.COLOR_BGR2YCrCb)
+
+    # split channel (Y = Luminance, Cr & Cb = Chrominance/Color)
+    y, cr, cb = cv2.split(img_ycrcb)
+
     # histogram image with noise 
-    hist_noisy = plot_histogram(img_noisy)
+    print("Memproses Channel Y...")
+    hist_noisy = plot_histogram(y)
 
-    img_denoised, hist_denoised = apply_median_filter(img_noisy, kernel_size=3)
-
+    img_denoised, hist_denoised = apply_median_filter(y, kernel_size=3)
     img_mean_denoised, hist_mean_denoised = apply_mean_filter(img_denoised, hist_denoised)
-
     img_sharpened, hist_sharpened = sharpening(img_denoised, hist_denoised)
-
     img_equalized, hist_equalized = apply_histogram_eq(img_sharpened, hist_sharpened)
+
+    # gabungkan channel Y yang udah diproses
+    img_ycrcb_restored = cv2.merge((img_equalized, cr, cb))
+
+    # ubah kembali ke RGB & BGR
+    img_restored_rgb = cv2.cvtColor(img_ycrcb_restored, cv2.COLOR_YCrCb2RGB)
+    img_restored_bgr = cv2.cvtColor(img_ycrcb_restored, cv2.COLOR_YCrCb2BGR)
 
     plt.figure(figsize=(PLT_WIDTH, PLT_HEIGHT))
 
-    # gambar noisy
+    # gambar noisy (warna)
     plt.subplot(PLT_ROW, PLT_COL, 1)
     plt.imshow(img_noisy, cmap='gray', vmin=0, vmax=255)
     plt.title('Image noisy')
     plt.axis('off')
 
-    # histogram noisy
+    # histogram noisy (channel Y)
     plt.subplot(PLT_ROW, PLT_COL, 2)
     plt.bar(range(256), hist_noisy, color='black', width=1)
     plt.title('Histogram noisy')
@@ -213,22 +232,20 @@ if __name__ == '__main__':
     plt.ylabel('Frekuensi')
 
 
-    # gambar equalized
+    # GAMBAR HASIL AKHIR (BERWARNA)
     plt.subplot(PLT_ROW, PLT_COL, 9)
-    plt.imshow(img_equalized, cmap='gray', vmin=0, vmax=255)
-    plt.title("Image Equalized")
+    plt.imshow(img_restored_rgb)
+    plt.title("Final Image Equalized (COLOR)")
     plt.axis('off')
 
-    # histogram equalize
+    # Histogram equalize (Y Channel)
     plt.subplot(PLT_ROW, PLT_COL, 10)
     plt.bar(range(256), hist_equalized, color='black', width=1)
-    plt.title('Histogram Equalized')
-    plt.xlabel('Intensitas pixel (0-255)')
-    plt.ylabel('Frekuensi')
+    plt.title('Final Histogram (Y Channel)')
 
 
     plt.tight_layout()
     plt.show()
 
-    cv2.imwrite('output/lena_restored.png', img_equalized)
+    cv2.imwrite('output/lena_restored_color.png', img_restored_bgr)
     print('Restored image saved in output/')
